@@ -1,0 +1,164 @@
+{
+  "version_codigo": "1.0.0",
+  "inicio": "2026-10-09T09:05:40.621672-05:00",
+  "fuente": "127.0.0.1:1433/CookPilot",
+  "modo": "local; batch JDBC; solo lectura; datos sintéticos",
+  "configuracion": {
+    "cores": 2,
+    "particiones_transformacion": 4,
+    "particiones_lectura_jdbc": 1,
+    "ventana_asociacion_dias": 7,
+    "jdbc_fetchsize": 10000
+  },
+  "tablas": {
+    "planning": "dbo.fact_planning",
+    "shopping": "dbo.fact_shopping_item",
+    "cooking": "dbo.fact_cooking_session",
+    "date": "dbo.dim_date",
+    "category": "dbo.dim_category",
+    "session_status": "dbo.dim_session_status",
+    "users": "dbo.dim_user",
+    "origins": "cooklist.list_item_origins"
+  },
+  "calidad": [
+    {
+      "tabla": "dbo.fact_planning",
+      "filas": 23769,
+      "pk_nulas": 0,
+      "pk_duplicadas": 0
+    },
+    {
+      "tabla": "dbo.fact_shopping_item",
+      "filas": 144829,
+      "pk_nulas": 0,
+      "pk_duplicadas": 0
+    },
+    {
+      "tabla": "dbo.fact_cooking_session",
+      "filas": 13093,
+      "pk_nulas": 0,
+      "pk_duplicadas": 0
+    },
+    {
+      "tabla": "cooklist.list_item_origins",
+      "filas": 238372
+    },
+    {
+      "tabla": "dbo.dim_user",
+      "filas": 100
+    }
+  ],
+  "analisis": {
+    "A": {
+      "planificaciones": 23769,
+      "planes_con_items_compra": 23769,
+      "planes_con_item_adquirido": 23645,
+      "sesiones_asociadas_estimadas": 13093,
+      "planes_con_sesion_asociada_estimada": 13088,
+      "planes_con_items_pct": 100.0,
+      "planes_con_sesion_estimada_pct": 55.06,
+      "relaciones_origen_con_usuario_distinto": 0,
+      "relaciones_origen_presentes_en_ambos_hechos": 238372,
+      "ventana_asociacion_dias": 7,
+      "criterio_origen": "cooklist.list_item_origins: plan_entry_id + list_item_id (verificado)",
+      "criterio_cocina": "Coincidencia usuario/receta; sesión entre fecha planificada y N días después; asignación a planificación previa más reciente. No es una conversión causal.",
+      "segundos": 6.578
+    },
+    "B": {
+      "usuarios_activos": 100,
+      "meses_observados": 7,
+      "ultimo_mes_sin_recurrencia_futura": "2026-09",
+      "nota": "La recurrencia se calcula sobre planificadores de meses consecutivos; el último mes se excluye por falta de datos futuros. Los meses extremos pueden estar incompletos.",
+      "segundos": 4.876
+    },
+    "C": {
+      "diferencias_almacenadas_distintas_del_calculo": 0,
+      "estados_terminales": [
+        "finished",
+        "abandoned",
+        "expired"
+      ],
+      "nota": "La duración y su desviación se calculan únicamente para sesiones finalizadas con duración >=0 y tiempo estimado >0. La tasa de finalización excluye los estados activos y pausados.",
+      "segundos": 1.396
+    }
+  },
+  "salidas": [
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\A_recorrido_mensual.csv",
+      "filas": 7
+    },
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\B_actividad_mensual.csv",
+      "filas": 7
+    },
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\B_usuarios_mensual.csv",
+      "filas": 655
+    },
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\B_perfiles_usuarios.csv",
+      "filas": 100
+    },
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\B_recurrencia_mensual.csv",
+      "filas": 6
+    },
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\C_categoria_mes.csv",
+      "filas": 198
+    },
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\C_categorias.csv",
+      "filas": 29
+    },
+    {
+      "archivo": "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\C_mensual.csv",
+      "filas": 7
+    }
+  ],
+  "graficos": [
+    "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\A_recorrido_culinario.png",
+    "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\B_comportamiento_usuarios.png",
+    "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\C_finalizacion_por_categoria.png",
+    "C:\\spark\\resultados_bigdata\\ejecucion_20261009_090540\\B_recurrencia.png"
+  ],
+  "estado": "completado",
+  "advertencias": [
+    "No se acredita procesamiento en un clúster multinodo: Spark opera en una sola computadora.",
+    "Los resultados describen datos sintéticos y no comportamiento real de consumidores.",
+    "Las planificaciones relacionadas con cocina son asociaciones temporales; no un vínculo de origen comprobado.",
+    "No se mide compra monetaria: adquirido equivale a producto marcado en una lista.",
+    "La extracción JDBC utiliza una partición por tabla; las particiones configurables corresponden al procesamiento posterior."
+  ],
+  "entorno": {
+    "spark": "4.2.0",
+    "python": "3.14.2",
+    "sistema": "Windows-11-10.0.26300-SP0",
+    "java": "24.0.2"
+  },
+  "memoria_driver_jvm_inicio": {
+    "heap_utilizado_mib": 78.69,
+    "heap_maximo_mib": 1024.0
+  },
+  "periodo_datos": {
+    "desde": "2026-03-23",
+    "hasta": "2026-09-23",
+    "fechas": 185
+  },
+  "estados_sesion": [
+    {
+      "status_code": "abandoned",
+      "count": 2377
+    },
+    {
+      "status_code": "finished",
+      "count": 10716
+    }
+  ],
+  "memoria_driver_jvm_fin": {
+    "heap_utilizado_mib": 816.46,
+    "heap_maximo_mib": 1024.0
+  },
+  "fin": "2026-10-09T09:06:17.372044-05:00",
+  "segundos_totales": 36.75
+}
