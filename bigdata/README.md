@@ -8,7 +8,7 @@ El procesamiento se realiza mediante JDBC, en modo local y por lotes. El program
 
 El archivo principal es:
 
-`bigdata/cookpilot_bigdata_spark.py`
+`bigdata/E-06_cookpilot_bigdata_spark.py`
 
 **Análisis implementados:**
 
@@ -172,7 +172,7 @@ $env:SPARK_HOME="C:\spark"; $env:Path="C:\spark\bin;$env:Path"
 Ejecutar el programa:
 
 ```powershell
-$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\cookpilot_bigdata_spark.py"
+$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\E-06_cookpilot_bigdata_spark.py"
 ```
 
 **Explicación del comando:**
@@ -181,7 +181,7 @@ $env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\
 - `Path` incorpora el directorio que contiene la DLL.
 - `spark-submit` inicia la aplicación PySpark.
 - `--driver-library-path` permite localizar la biblioteca nativa desde el proceso controlador de Spark.
-- `bigdata\cookpilot_bigdata_spark.py` es el programa de análisis.
+- `bigdata\E-06_cookpilot_bigdata_spark.py` es el programa de análisis.
 
 La configuración predeterminada ejecuta Spark con **dos núcleos locales y cuatro particiones de transformación**. La lectura JDBC utiliza una partición por tabla.
 
@@ -193,7 +193,7 @@ Cada ejecución crea una carpeta identificada por su fecha y hora:
 
 ```text
 bigdata/
-├── cookpilot_bigdata_spark.py
+├── E-06_cookpilot_bigdata_spark.py
 ├── resultados_bigdata/
 │   └── ejecucion_YYYYMMDD_HHMMSS/
 │       ├── A_recorrido_mensual.csv
@@ -211,7 +211,7 @@ bigdata/
 │       └── reporte_ejecucion.json
 ```
 
-La ubicación anterior corresponde a las salidas de una **nueva ejecución**, con los parámetros predeterminados. Los resultados históricos seleccionados para la entrega se encuentran en las carpetas `bigdata/resultados/` y `bigdata/graficos/` del repositorio.
+La ubicación anterior corresponde a las salidas de una **nueva ejecución**, con los parámetros predeterminados. Los resultados históricos seleccionados para la entrega se encuentran en las carpetas `bigdata/resultados/` y `bigdata/graficos/` del repositorio, identificados con el prefijo `E-08_`. Su reporte histórico tiene el prefijo `E-10_`. Los archivos de una nueva ejecución conservan los nombres originales sin prefijo, como se muestra arriba.
 
 El archivo `reporte_ejecucion.json` registra las configuraciones, las fuentes, los controles de calidad, los resultados, el consumo puntual de memoria JVM, los tiempos y el estado final.
 
@@ -247,7 +247,7 @@ El programa admite los siguientes parámetros:
 Por ejemplo, para utilizar cuatro núcleos y ocho particiones:
 
 ```powershell
-$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\cookpilot_bigdata_spark.py" --cores 4 --partitions 8
+$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\E-06_cookpilot_bigdata_spark.py" --cores 4 --partitions 8
 ```
 
 El programa realiza las mismas operaciones analíticas, modificando la configuración de procesamiento local.
@@ -264,12 +264,12 @@ Se evaluaron tres escenarios:
 
 Los once reportes JSON originales, correspondientes a nueve ejecuciones comparativas, un fallo controlado y una recuperación manual, se encuentran en:
 
-`bigdata/experimentos/reportes_pruebas_bigdata.zip`
+`bigdata/experimentos/E-09_reportes_pruebas_bigdata.zip`
 
 Para repetir las nueve pruebas desde la raíz del repositorio:
 
 ```powershell
-$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; foreach ($cfg in @(@(1,1),@(2,4),@(4,8))) { foreach ($rep in 1..3) { Write-Host "PRUEBA: cores=$($cfg[0]) particiones=$($cfg[1]) repeticion=$rep"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\cookpilot_bigdata_spark.py" --cores $cfg[0] --partitions $cfg[1] --sin-graficos --output ".\pruebas_bigdata_locales"; if ($LASTEXITCODE -ne 0) { throw "Fallo la prueba de rendimiento" } } }
+$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; foreach ($cfg in @(@(1,1),@(2,4),@(4,8))) { foreach ($rep in 1..3) { Write-Host "PRUEBA: cores=$($cfg[0]) particiones=$($cfg[1]) repeticion=$rep"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\E-06_cookpilot_bigdata_spark.py" --cores $cfg[0] --partitions $cfg[1] --sin-graficos --output ".\pruebas_bigdata_locales"; if ($LASTEXITCODE -ne 0) { throw "Fallo la prueba de rendimiento" } } }
 ```
 
 La opción `--sin-graficos` evita que la generación de PNG altere la comparación de tiempos de procesamiento.
@@ -283,7 +283,7 @@ La prueba de resiliencia utilizó intencionalmente un puerto incorrecto.
 **Fallo controlado:**
 
 ```powershell
-$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\cookpilot_bigdata_spark.py" --port 1 --sin-graficos --output ".\pruebas_bigdata_locales"; Write-Host "Codigo de salida: $LASTEXITCODE"
+$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\E-06_cookpilot_bigdata_spark.py" --port 1 --sin-graficos --output ".\pruebas_bigdata_locales"; Write-Host "Codigo de salida: $LASTEXITCODE"
 ```
 
 Se espera un código de salida distinto de cero, acompañado de un reporte con estado `fallido`.
@@ -291,7 +291,7 @@ Se espera un código de salida distinto de cero, acompañado de un reporte con e
 **Recuperación manual:**
 
 ```powershell
-$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\cookpilot_bigdata_spark.py" --port 1433 --sin-graficos --output ".\pruebas_bigdata_locales"; Write-Host "Codigo de salida: $LASTEXITCODE"
+$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\E-06_cookpilot_bigdata_spark.py" --port 1433 --sin-graficos --output ".\pruebas_bigdata_locales"; Write-Host "Codigo de salida: $LASTEXITCODE"
 ```
 
 El resultado esperado es un código 0 y la finalización de los análisis.

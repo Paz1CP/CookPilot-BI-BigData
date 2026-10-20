@@ -1,2 +1,2 @@
-database/CookPilot_20261009_093937.bak filter=lfs diff=lfs merge=lfs -text
-database/CookPilot_Schema_And_Data.sql filter=lfs diff=lfs merge=lfs -text
+database/E-02_CookPilot_20261009_093937.bak filter=lfs diff=lfs merge=lfs -text
+database/E-02_CookPilot_Schema_And_Data.sql filter=lfs diff=lfs merge=lfs -text

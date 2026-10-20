@@ -7,7 +7,7 @@ Entorno comprobado por el usuario: Spark 4.2.0, Windows 11, SQL Server 2022,
 JDBC Microsoft 13.6 con autenticación integrada de Windows.
 
 Ejemplo de PowerShell (una sola línea):
-$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" "C:\spark\cookpilot_bigdata_spark.py"
+$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\E-06_cookpilot_bigdata_spark.py"
 
 Salidas: CSV agregados, JSON de ejecución y PNG si matplotlib está disponible.
 No se exportan nombres de usuario, correos ni registros operacionales individuales.

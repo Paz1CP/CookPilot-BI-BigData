@@ -63,51 +63,51 @@ CookPilot-BI-BigData/
 ├── .gitattributes
 │
 ├── database/
-│   ├── CookPilot_20261009_093937.bak
-│   └── CookPilot_Schema_And_Data.sql
+│   ├── E-02_CookPilot_20261009_093937.bak
+│   └── E-02_CookPilot_Schema_And_Data.sql
 │
 ├── etl/
-│   └── seed_cookpilot_sql.py
+│   └── E-03_seed_cookpilot_sql.py
 │
 ├── bi/
-│   └── CookPilot_BI.pbix
+│   └── E-07_CookPilot_BI.pbix
 │
 ├── bigdata/
 │   ├── README.md
-│   ├── cookpilot_bigdata_spark.py
+│   ├── E-06_cookpilot_bigdata_spark.py
 │   │
 │   ├── resultados/
-│   │   ├── A_recorrido_mensual.csv
-│   │   ├── B_actividad_mensual.csv
-│   │   ├── B_usuarios_mensual.csv
-│   │   ├── B_perfiles_usuarios.csv
-│   │   ├── B_recurrencia_mensual.csv
-│   │   ├── C_categoria_mes.csv
-│   │   ├── C_categorias.csv
-│   │   ├── C_mensual.csv
-│   │   └── reporte_ejecucion.json
+│   │   ├── E-08_A_recorrido_mensual.csv
+│   │   ├── E-08_B_actividad_mensual.csv
+│   │   ├── E-08_B_usuarios_mensual.csv
+│   │   ├── E-08_B_perfiles_usuarios.csv
+│   │   ├── E-08_B_recurrencia_mensual.csv
+│   │   ├── E-08_C_categoria_mes.csv
+│   │   ├── E-08_C_categorias.csv
+│   │   ├── E-08_C_mensual.csv
+│   │   └── E-10_reporte_ejecucion.json
 │   │
 │   ├── graficos/
-│   │   ├── A_recorrido_culinario.png
-│   │   ├── B_comportamiento_usuarios.png
-│   │   ├── B_recurrencia.png
-│   │   └── C_finalizacion_por_categoria.png
+│   │   ├── E-08_A_recorrido_culinario.png
+│   │   ├── E-08_B_comportamiento_usuarios.png
+│   │   ├── E-08_B_recurrencia.png
+│   │   └── E-08_C_finalizacion_por_categoria.png
 │   │
 │   └── experimentos/
-│       └── reportes_pruebas_bigdata.zip
+│       └── E-09_reportes_pruebas_bigdata.zip
 │
 └── evidences/
     ├── bi/
-    │   ├── modelo_semantico.png
-    │   ├── operaciones_olap.png
-    │   ├── panel_planificacion_nutricion.png
-    │   ├── panel_compras_ingredientes.png
-    │   └── panel_sesiones_cocina.png
+    │   ├── E-05_modelo_semantico.png
+    │   ├── E-07_operaciones_olap.png
+    │   ├── E-07_panel_planificacion_nutricion.png
+    │   ├── E-07_panel_compras_ingredientes.png
+    │   └── E-07_panel_sesiones_cocina.png
     │
     └── sql/
-        ├── modelo_dimensional.png
-        ├── ejecucion_etl.png
-        └── validacion_etl.png
+        ├── E-05_modelo_dimensional.png
+        ├── E-10_ejecucion_etl.png
+        └── E-10_validacion_etl.png
 ```
 
 Los dos archivos de `database/` están gestionados mediante Git LFS debido a su tamaño.
@@ -137,7 +137,7 @@ git lfs pull
 Después de clonar, verificar que ambos archivos de `database/` hayan sido descargados completamente y no contengan únicamente los punteros de Git LFS.
 
 ```powershell
-Get-Item ".\database\CookPilot_20261009_093937.bak", ".\database\CookPilot_Schema_And_Data.sql" | Select-Object Name,Length
+Get-Item ".\database\E-02_CookPilot_20261009_093937.bak", ".\database\E-02_CookPilot_Schema_And_Data.sql" | Select-Object Name,Length
 ```
 
 Los tamaños registrados de los archivos originales son:
@@ -166,7 +166,7 @@ Si SQL Server utiliza otro puerto o instancia, será necesario ajustar la conexi
 
 **Método recomendado: archivo `.bak`.**
 
-El archivo `database/CookPilot_20261009_093937.bak` contiene la base de datos preparada para el proyecto, incluyendo la estructura relacional, los registros operacionales y las tablas del almacén dimensional.
+El archivo `database/E-02_CookPilot_20261009_093937.bak` contiene la base de datos preparada para el proyecto, incluyendo la estructura relacional, los registros operacionales y las tablas del almacén dimensional.
 
 En SSMS:
 
@@ -186,7 +186,7 @@ Puede comprobarse el respaldo mediante SQL:
 
 ```sql
 RESTORE VERIFYONLY
-FROM DISK = N'C:\ruta\CookPilot_20261009_093937.bak'
+FROM DISK = N'C:\ruta\E-02_CookPilot_20261009_093937.bak'
 WITH CHECKSUM;
 ```
 
@@ -198,7 +198,7 @@ Esta comprobación no reemplaza una restauración efectiva, pero permite verific
 
 También se incluye:
 
-`database/CookPilot_Schema_And_Data.sql`
+`database/E-02_CookPilot_Schema_And_Data.sql`
 
 El archivo permite disponer de la estructura y los datos exportados en formato SQL.
 
@@ -207,7 +207,7 @@ Para utilizarlo, debe comprobarse primero el encabezado del script, especialment
 Puede ejecutarse desde SSMS o mediante `sqlcmd`, siempre que el destino sea una instancia compatible y el contexto de base de datos sea el correcto:
 
 ```powershell
-sqlcmd -S localhost -E -b -i ".\database\CookPilot_Schema_And_Data.sql"
+sqlcmd -S localhost -E -b -i ".\database\E-02_CookPilot_Schema_And_Data.sql"
 ```
 
 `-E` utiliza autenticación integrada de Windows y `-b` permite devolver un código de error cuando SQL Server informa de un fallo de ejecución.
@@ -245,7 +245,7 @@ El almacén dimensional utiliza tres tablas de hechos y nueve dimensiones dentro
 
 El programa ETL del proyecto es:
 
-`etl/seed_cookpilot_sql.py`
+`etl/E-03_seed_cookpilot_sql.py`
 
 Sus funciones principales son:
 
@@ -291,7 +291,7 @@ Solo debe ejecutarse sobre una base preparada para reconstrucción, con respaldo
 Desde la raíz del repositorio:
 
 ```powershell
-python ".\etl\seed_cookpilot_sql.py" --dump "C:\ruta\backup_cookpilot_prod_2026-10-03_16-04-24.sql" --confirm-reset
+python ".\etl\E-03_seed_cookpilot_sql.py" --dump "C:\ruta\backup_cookpilot_prod_2026-10-03_16-04-24.sql" --confirm-reset
 ```
 
 `--dump` indica la ubicación de la exportación original y `--confirm-reset` autoriza explícitamente la sustitución transaccional de los registros.
@@ -306,12 +306,12 @@ En el entorno original, el reporte ETL se guardaba como `cookpilot_etl_report.js
 
 El informe se encuentra en:
 
-`bi/CookPilot_BI.pbix`
+`bi/E-07_CookPilot_BI.pbix`
 
 Para abrirlo:
 
 1. Instalar Power BI Desktop.
-2. Abrir `CookPilot_BI.pbix`.
+2. Abrir `E-07_CookPilot_BI.pbix`.
 3. Comprobar los orígenes de datos de SQL Server.
 4. Si el servidor del equipo es diferente, actualizar la conexión desde **Archivo → Opciones y configuración → Configuración de origen de datos**.
 5. Seleccionar las credenciales apropiadas y actualizar el modelo si es necesario.
@@ -332,7 +332,7 @@ Las capturas de los paneles, el modelo semántico y las operaciones OLAP están 
 
 El programa se encuentra en:
 
-`bigdata/cookpilot_bigdata_spark.py`
+`bigdata/E-06_cookpilot_bigdata_spark.py`
 
 Se ejecuta mediante Apache Spark 4.2.0 y utiliza JDBC para consultar SQL Server en modo de solo lectura.
 
@@ -343,7 +343,7 @@ Antes de iniciar, es necesario configurar Java, Spark, el controlador JDBC Micro
 Una vez preparado el entorno, desde la raíz del repositorio puede ejecutarse:
 
 ```powershell
-$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\cookpilot_bigdata_spark.py"
+$env:JAVA_TOOL_OPTIONS="-Djava.library.path=C:\spark\jdbc"; $env:Path="C:\spark\jdbc;$env:Path"; spark-submit --driver-library-path "C:\spark\jdbc" ".\bigdata\E-06_cookpilot_bigdata_spark.py"
 ```
 
 La aplicación realiza los tres análisis:
@@ -360,15 +360,15 @@ Las evidencias técnicas pueden localizarse directamente mediante las siguientes
 
 | Evidencia | Ubicación |
 |---|---|
-| Base de datos completa | `database/CookPilot_20261009_093937.bak` |
-| Esquema y datos exportados | `database/CookPilot_Schema_And_Data.sql` |
-| Programa ETL | `etl/seed_cookpilot_sql.py` |
-| Informe Power BI | `bi/CookPilot_BI.pbix` |
-| Programa Big Data | `bigdata/cookpilot_bigdata_spark.py` |
+| Base de datos completa | `database/E-02_CookPilot_20261009_093937.bak` |
+| Esquema y datos exportados | `database/E-02_CookPilot_Schema_And_Data.sql` |
+| Programa ETL | `etl/E-03_seed_cookpilot_sql.py` |
+| Informe Power BI | `bi/E-07_CookPilot_BI.pbix` |
+| Programa Big Data | `bigdata/E-06_cookpilot_bigdata_spark.py` |
 | Resultados tabulares Big Data | `bigdata/resultados/` |
 | Visualizaciones Big Data | `bigdata/graficos/` |
-| Reporte de ejecución Spark | `bigdata/resultados/reporte_ejecucion.json` |
-| Reportes experimentales | `bigdata/experimentos/reportes_pruebas_bigdata.zip` |
+| Reporte de ejecución Spark | `bigdata/resultados/E-10_reporte_ejecucion.json` |
+| Reportes experimentales | `bigdata/experimentos/E-09_reportes_pruebas_bigdata.zip` |
 | Evidencias BI | `evidences/bi/` |
 | Evidencias SQL y ETL | `evidences/sql/` |
 
@@ -386,7 +386,7 @@ Las nueve ejecuciones comparativas fueron completadas correctamente.
 
 La configuración de cuatro núcleos y ocho particiones obtuvo el menor tiempo promedio, aproximadamente un 8,9 % inferior al escenario de referencia. Los experimentos corresponden a una sola computadora y no demuestran escalabilidad en un clúster multinodo.
 
-Los reportes originales se encuentran en `bigdata/experimentos/reportes_pruebas_bigdata.zip`.
+Los reportes originales se encuentran en `bigdata/experimentos/E-09_reportes_pruebas_bigdata.zip`.
 
 ## 10. . Alcance y limitaciones
 
